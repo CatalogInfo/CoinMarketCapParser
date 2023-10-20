@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import Test from './api/binance/Test'
+import BinanceApi from './api/binance/binance_api';
+import BinanceExchangeInfoResponse from './api/response/binance_exchange_info_response';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   const [res, setRes] = useState("");
+
   async function callApi() {
-    setRes(JSON.stringify(await Test.callApi()));
+    setRes(JSON.stringify(await BinanceApi.getExchangeInfo<BinanceExchangeInfoResponse>()));
   }
   return (
     <>
