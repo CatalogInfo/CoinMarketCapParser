@@ -1,5 +1,5 @@
 export default class TimerUtils {
-  static async sleep(time: number) {
-    await new Promise(resolve => setTimeout(resolve, time));
+  static async sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }

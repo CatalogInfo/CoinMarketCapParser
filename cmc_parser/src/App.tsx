@@ -8,7 +8,9 @@ function App() {
   const [res, setRes] = useState("");
 
   async function callApi() {
-    setRes(JSON.stringify(await BinanceParse.parseOrderBookTradingSymols()));
+    const res = await BinanceParse.parseOrderBookTradingSymols();
+    console.log(res);
+    // setRes(JSON.stringify(await BinanceParse.parseOrderBookTradingSymols()));
   }
   return (
     <>

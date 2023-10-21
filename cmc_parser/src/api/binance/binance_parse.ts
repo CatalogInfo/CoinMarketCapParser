@@ -44,18 +44,21 @@ export default class BinanceParse {
   static async parseOrderBookTradingSymols() {
     const symbols = await this.getBaseQuoteAssets();
 
-    symbols.map(async (symbol: SymbolBaseQuote) => {
-      const fullSymbol = symbol.baseAsset + symbol.quoteAsset;
+    for(let i = 0; i < symbols.length; i ++) {
+      this.asyncCalsuls(symbols[i])
+      await TimerUtils.sleep(200);
+    }
+  }
+
+  private static async asyncCalsuls(symbol: SymbolBaseQuote) {
+    const fullSymbol = symbol.baseAsset + symbol.quoteAsset;
 
       const response: BinanceOrderBookResponse = await (await BinanceApi.getOrderBook(fullSymbol)).data as BinanceOrderBookResponse;
 
       const bidsAsks = this.convertOrderBookResponseToBidsAsks(response);
 
       const finalPrices = CalculateUtils.calculatePriceForLiquidity(2000, bidsAsks);
-
-      await TimerUtils.sleep(200);
       console.log(finalPrices);
-    });
   }
 
   private static convertOrderBookResponseToBidsAsks(response: BinanceOrderBookResponse) {
