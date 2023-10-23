@@ -1,4 +1,4 @@
-import { BidsAsks, Order } from "../api/binance/binance_parse";
+import { BidsAsks, Order } from "../outputter/exchanges_data_types";
 
 export default class CalculateUtils {
   static calculatePriceForLiquidity(liquiduty: number, bidsAsks: BidsAsks) {

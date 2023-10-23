@@ -1,14 +1,13 @@
 import { useState } from 'react'
-import BinanceApi from './api/binance/binance_api';
 import BinanceParse from './api/binance/binance_parse';
-import BinanceExchangeInfoResponse from './api/response/binance_exchange_info_response';
+import GateParse from './api/gate/gate_parse';
 import './App.css'
 
 function App() {
   const [res, setRes] = useState("");
 
   async function callApi() {
-    const res = await BinanceParse.parseOrderBookTradingSymols();
+    const res = await GateParse.parseOrderBookTradingSymols();
     console.log(res);
     // setRes(JSON.stringify(await BinanceParse.parseOrderBookTradingSymols()));
   }
