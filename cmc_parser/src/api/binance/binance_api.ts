@@ -1,7 +1,7 @@
 import api_factory from "../api_factory";
 import BaseApiResponse from "../response/base_api_response";
-import BinanceExchangeInfoResponse from "../response/binance_exchange_info_response";
-import BinanceOrderBookResponse from "../response/binance_order_book_response";
+import BinanceExchangeInfoResponse from "../response/binance/binance_exchange_info_response";
+import BinanceOrderBookResponse from "../response/binance/binance_order_book_response";
 
 export default class BinanceApi {
   static baseUrl = "https://api4.binance.com/api/v3";
