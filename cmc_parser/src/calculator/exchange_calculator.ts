@@ -9,7 +9,6 @@ export default class ExcnhageCalculator {
       await obtainOrderBook(symbol)
     );
 
-    console.log(ExchangeOutputter.getTradingSymbolFormatted(symbol, finalPrices))
     return ExchangeOutputter.getTradingSymbolFormatted(symbol, finalPrices);
   }
 }

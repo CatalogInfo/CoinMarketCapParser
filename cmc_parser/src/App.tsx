@@ -1,14 +1,14 @@
 import { useState } from 'react'
-import BinanceParse from './api/binance/binance_parse';
-import GateParse from './api/gate/gate_parse';
+import OkxParse from './api/okx/okx_parse';
+import Splitter from './api/splitter/splitter';
 import './App.css'
 
 function App() {
   const [res, setRes] = useState("");
 
   async function callApi() {
-    const res = await GateParse.parseOrderBookTradingSymols();
-    console.log(res);
+    
+    const respose = await Splitter.split();
     // setRes(JSON.stringify(await BinanceParse.parseOrderBookTradingSymols()));
   }
   return (
