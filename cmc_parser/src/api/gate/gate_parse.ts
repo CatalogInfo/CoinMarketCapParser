@@ -34,7 +34,7 @@ export default class GateParse {
     return GateMapper.convertAssetsToSymbolQouteBase(tradingPairs, this.requiredQuoteAssets);
   }
 
-  private static async obtainOrderBook(symbol: SymbolBaseQuote): Promise<BidsAsks> {
+  private static async obtainOrderBook(symbol: TradingSymbol): Promise<BidsAsks> {
     const fullSymbol = SymbolUtils.getFullSymbol(symbol, "_");
 
     const { data: orderBook } = await GateApi.getOrderBook(fullSymbol);

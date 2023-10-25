@@ -8,15 +8,17 @@ export default abstract class ExchangeParser {
   abstract tradingSymbols: TradingSymbol[];
   abstract SLEEP_TIME: number;
 
-  async parseOrderBookTradingSymols() {
-    const symbols = await this.getBaseQuoteAssets();
+  async parseOrderBookTradingSymols(tradingSymbols: TradingSymbol[]) {
 
-    for (let i = 0; i < symbols.length; i++) {
-      const symbol = symbols[i];
+    this.tradingSymbols = [];
+    const length = tradingSymbols.length;
+    for (let i = 0; i < length; i++) {
+      console.log(length)
+      const symbol = tradingSymbols[i];
       const pair = await ExcnhageCalculator.asyncCalculs(symbol, async () => await this.obtainOrderBook(symbol));
 
       if (pair === undefined) {
-        return;
+        continue;
       }
 
       this.tradingSymbols.push(pair);
@@ -25,7 +27,7 @@ export default abstract class ExchangeParser {
     }
   } 
 
-  protected abstract getBaseQuoteAssets(): Promise<SymbolBaseQuote[]>;
+  abstract getBaseQuoteAssets(): Promise<SymbolBaseQuote[]>;
   protected abstract obtainOrderBook(symbol: SymbolBaseQuote): Promise<BidsAsks>;
 
 }

@@ -15,31 +15,58 @@ export default class Splitter {
   static async split() {
     this.init();
 
-    const parseProccess = () => new Promise(() => {
-        this.exchanges.map((exc: ExchangeParser) => {
-          exc.parseOrderBookTradingSymols();
-        });
-    });
+    await Promise.all(this.exchanges.map(async (exc) => {
+      await exc.getBaseQuoteAssets();
+    }));
 
-    await parseProccess();
+    const pairs: TradingSymbol[][] = this.exchanges.map(exc => exc.tradingSymbols);
 
-    // let j = 0;
-    // for(let i = 0; i < this.exchanges.length; i ++) {
-      
-    // }
-    console.log(this.compareSymbols(this.exchanges[0].tradingSymbols, this.exchanges[1].tradingSymbols))
+    const outputPairs: TradingSymbol[][] = this.findRepeatedBaseAndQuoteElements(pairs);
+
+    for(let i = 0; i < this.exchanges.length; i ++) {
+      this.exchanges[i].tradingSymbols = outputPairs[i];
+      console.log(this.exchanges[i].tradingSymbols)
+    }
+
+    await Promise.all([this.exchanges[0].parseOrderBookTradingSymols(this.exchanges[0].tradingSymbols), this.exchanges[1].parseOrderBookTradingSymols(this.exchanges[1].tradingSymbols)]);
+
   }
 
-  private static compareSymbols(tradingSymbols1: TradingSymbol[], tradingSymbols2: TradingSymbol[]) {
-    const result = tradingSymbols1.map(el => {
-      tradingSymbols2.map(el1 => {
-        console.log(el.baseAsset + el.quoteAsset)
-        if((el.baseAsset + el.quoteAsset) === (el1.baseAsset + el1.quoteAsset)) {
-          return el;
+  static findRepeatedBaseAndQuoteElements(arrayOfPairs: TradingSymbol[][]): TradingSymbol[][] {
+    const pairCounts: { [key: string]: number } = {};
+    const repeatedPairs: Set<string> = new Set();
+
+    // Count the occurrences of each pair (base and quote) in the arrays
+    for (const pairs of arrayOfPairs) {
+        for (const pair of pairs) {
+            const { baseAsset, quoteAsset } = pair;
+            const key = `${baseAsset}_${quoteAsset}`;
+            if (key in pairCounts) {
+                pairCounts[key]++;
+            } else {
+                pairCounts[key] = 1;
+            }
         }
-      })
-    })
+    }
 
-    return result;
-  }
+    // Identify repeated pairs
+    for (const key in pairCounts) {
+        if (pairCounts[key] > 1) {
+            repeatedPairs.add(key);
+        }
+    }
+
+    // Create the output arrays for each input array
+    const outputArray: TradingSymbol[][] = [];
+    for (const pairs of arrayOfPairs) {
+        const outputPairs = pairs.filter(pair => {
+            const key = `${pair.baseAsset}_${pair.quoteAsset}`;
+            return repeatedPairs.has(key);
+        });
+        outputArray.push(outputPairs);
+    }
+
+    return outputArray;
+}
+
 }

@@ -1,7 +1,7 @@
-import { SymbolBaseQuote } from "../outputter/exchanges_data_types";
+import TradingSymbol from "../models/trading_symbol";
 
 export default class SymbolUtils {
-  static getFullSymbol(symbol: SymbolBaseQuote, splitter: string) {
+  static getFullSymbol(symbol: TradingSymbol, splitter: string) {
     return symbol.baseAsset + splitter + symbol.quoteAsset;
   }
 }
