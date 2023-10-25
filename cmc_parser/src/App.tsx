@@ -5,6 +5,7 @@ function App() {
   async function callApi() {
     await Splitter.split();
   }
+
   return (
     <>
       <div className="h-screen w-screen flex justify-center items-center">
@@ -16,7 +17,7 @@ function App() {
         </button>
       </div>
     </>
-  );
+  );;
 }
 
-export default App;
+export default App;;

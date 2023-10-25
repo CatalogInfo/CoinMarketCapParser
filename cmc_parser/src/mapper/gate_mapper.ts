@@ -1,6 +1,6 @@
-import GateExchangeInfoResponse from "../api/response/gate_exchange_info_response";
-import GateOrderBookReponse from "../api/response/gate_order_book_response";
-import GateSymbolResponse from "../api/response/gate_symbol_response";
+import GateExchangeInfoResponse from "../api/response/gate/gate_exchange_info_response";
+import GateOrderBookReponse from "../api/response/gate/gate_order_book_response";
+import GateSymbolResponse from "../api/response/gate/gate_symbol_response";
 import { BidsAsks, Order, SymbolBaseQuote } from "../outputter/exchanges_data_types";
 
 export default class GateMapper {

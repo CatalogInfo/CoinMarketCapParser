@@ -1,6 +1,6 @@
-import OkxExchangeInfoResponse from "../api/response/okx_exchange_info_response";
-import { OkxOrderBook } from "../api/response/okx_order_book_response";
-import OkxSymbolResponse from "../api/response/okx_symbol_response";
+import OkxExchangeInfoResponse from "../api/response/okx/okx_exchange_info_response";
+import { OkxOrderBook } from "../api/response/okx/okx_order_book_response";
+import OkxSymbolResponse from "../api/response/okx/okx_symbol_response";
 import { BidsAsks, Order, SymbolBaseQuote } from "../outputter/exchanges_data_types";
 
 export default class OkxMapper {

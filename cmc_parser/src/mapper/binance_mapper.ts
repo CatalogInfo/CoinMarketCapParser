@@ -1,6 +1,6 @@
-import BinanceExchangeInfoResponse from "../api/response/binance_exchange_info_response";
-import BinanceOrderBookResponse from "../api/response/binance_order_book_response";
-import BinanceSymbolResponse from "../api/response/binance_symbol_response";
+import BinanceExchangeInfoResponse from "../api/response/binance/binance_exchange_info_response";
+import BinanceOrderBookResponse from "../api/response/binance/binance_order_book_response";
+import BinanceSymbolResponse from "../api/response/binance/binance_symbol_response";
 import { BidsAsks, Order, SymbolBaseQuote } from "../outputter/exchanges_data_types";
 
 export default class BinanceMapper {
