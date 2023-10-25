@@ -41,9 +41,10 @@ export default class HuobiMapper {
       }
 
       symbols.push({
-        baseAsset: symbol.bcdn,
-        quoteAsset: symbol.qcdn,
+        baseAsset: symbol.bcdn.toUpperCase(),
+        quoteAsset: symbol.qcdn.toUpperCase(),
       });
+
     });
     return symbols;
   }
