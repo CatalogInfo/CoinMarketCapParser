@@ -25,11 +25,11 @@ export default class Splitter {
 
     for(let i = 0; i < this.exchanges.length; i ++) {
       this.exchanges[i].tradingSymbols = outputPairs[i];
-      console.log(this.exchanges[i].tradingSymbols)
     }
 
-    await Promise.all([this.exchanges[0].parseOrderBookTradingSymols(this.exchanges[0].tradingSymbols), this.exchanges[1].parseOrderBookTradingSymols(this.exchanges[1].tradingSymbols)]);
-
+    await Promise.all(this.exchanges.map(async (value) => {
+      return value.parseOrderBookTradingSymols(value.tradingSymbols);
+    }));
   }
 
   static findRepeatedBaseAndQuoteElements(arrayOfPairs: TradingSymbol[][]): TradingSymbol[][] {
