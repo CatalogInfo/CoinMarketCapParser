@@ -1,4 +1,6 @@
 export default interface HuobiOrderBookReponse {
-  bids: number[][];
-  asks: number[][];
+  tick: {
+    bids: number[][];
+    asks: number[][];
+  }
 }

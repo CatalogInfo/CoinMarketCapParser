@@ -1,6 +1,7 @@
 import TradingSymbol from "../../models/trading_symbol";
 import BinanceParse from "../binance/binance_parse";
 import ExchangeParser from "../exchange_parser";
+// import HuobiParse from "../huobi/huobi_parse";
 import OkxParse from "../okx/okx_parse";
 
 export default class Splitter {
@@ -10,6 +11,7 @@ export default class Splitter {
   private static init() {
     this.exchanges.push(new BinanceParse);
     this.exchanges.push(new OkxParse);
+    // this.exchanges.push(new HuobiParse);
   }
 
   static async split() {

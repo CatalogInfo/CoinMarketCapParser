@@ -9,10 +9,14 @@ export default class HuobiMapper {
   ) {
     const bidsAsks: BidsAsks = { bids: [], asks: [] };
 
-    this.addToBidsAsks(response.bids, bidsAsks.bids);
-    this.addToBidsAsks(response.asks, bidsAsks.asks);
+    if(response.tick.asks !== undefined || response.tick.bids !== undefined){
 
-    return bidsAsks;
+      this.addToBidsAsks(response.tick.bids, bidsAsks.bids);
+      this.addToBidsAsks(response.tick.asks, bidsAsks.asks);
+      return bidsAsks;
+    }
+    console.log(bidsAsks);
+    
   }
 
   private static addToBidsAsks(
@@ -34,9 +38,8 @@ export default class HuobiMapper {
 
   static convertAssetsToSymbolQouteBase(tradingPairs: HuobiExchangeInfoResponse, requiredQuoteAssets: string[]) {
     const symbols: SymbolBaseQuote[] = [];
-
-    tradingPairs.symbols.map((symbol: HuobiSymbolResponse) => {
-      if (!requiredQuoteAssets.includes(symbol.qcdn)) {
+    tradingPairs.data.map((symbol: HuobiSymbolResponse) => {
+      if (!requiredQuoteAssets.includes(symbol.qcdn) && symbol.state === 'offline' ) {
         return;
       }
 
@@ -45,7 +48,6 @@ export default class HuobiMapper {
         quoteAsset: symbol.qcdn,
       });
     });
-
     return symbols;
   }
 }

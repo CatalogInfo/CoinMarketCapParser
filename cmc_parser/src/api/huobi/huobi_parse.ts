@@ -16,9 +16,9 @@ export default class HuobiParse extends ExchangeParser {
   }
 
   protected async obtainOrderBook(symbol: SymbolBaseQuote): Promise<BidsAsks> {
-    const fullSymbol = SymbolUtils.getFullSymbol(symbol, "");
+    const fullSymbol = SymbolUtils.getFullSymbol(symbol, "").toLowerCase();
 
-    const { data: orderBook } = await HuobiApi.getOrderBook(fullSymbol.toLowerCase());
+    const { data: orderBook } = await HuobiApi.getOrderBook(fullSymbol);
 
     return HuobiMapper.convertOrderBookResponseToBidsAsks(orderBook);
   }

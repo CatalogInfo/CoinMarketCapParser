@@ -2,7 +2,8 @@ import { useState } from 'react'
 // import OkxParse from './api/okx/okx_parse';
 // import Splitter from './api/splitter/splitter';
 import './App.css'
-import HuobiApi from './api/huobi/huobi_api';
+import HuobiParse from './api/huobi/huobi_parse';
+import ExchangeParser from './api/exchange_parser';
 
 function App() {
   const [res, setRes] = useState("");
@@ -11,7 +12,8 @@ function App() {
     
     // const respose = await Splitter.split();
     // setRes(JSON.stringify(await BinanceParse.parseOrderBookTradingSymols()));  
-    setRes(JSON.stringify(await HuobiApi.getExchangeInfo()));
+    const parse: ExchangeParser = new HuobiParse();
+    console.log(await parse.parseOrderBookTradingSymols());
   }
 
   return (
