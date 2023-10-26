@@ -8,7 +8,7 @@ import BybitApi from "./bybit_api";
 
 export default class BybitParse extends ExchangeParser {
   tradingSymbols: TradingSymbol[] = [];
-  SLEEP_TIME = 200;
+  SLEEP_TIME = 100;
 
   async getBaseQuoteAssets(): Promise<SymbolBaseQuote[]> {
     const { data: tradingPairs } = await BybitApi.getExchangeInfo();
