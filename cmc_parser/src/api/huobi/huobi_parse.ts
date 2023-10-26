@@ -1,6 +1,7 @@
 import HuobiMapper from "../../mapper/huobi_mapper";
 import TradingSymbol from "../../models/trading_symbol";
 import { BidsAsks, SymbolBaseQuote } from "../../outputter/exchanges_data_types";
+import ErrorUtils from "../../utils/error_utils";
 import SymbolUtils from "../../utils/symbol_utils";
 import ExchangeParser from "../exchange_parser";
 import HuobiApi from "./huobi_api";
@@ -19,7 +20,9 @@ export default class HuobiParse extends ExchangeParser {
   async obtainOrderBook(symbol: TradingSymbol): Promise<BidsAsks> {
     const fullSymbol = SymbolUtils.getFullSymbol(symbol, "").toLowerCase();
 
-    const { data: orderBook } = await HuobiApi.getOrderBook(fullSymbol);
+    const { data: orderBook, status: status } = await HuobiApi.getOrderBook(fullSymbol);
+
+    ErrorUtils.defineError(status);
 
     return HuobiMapper.convertOrderBookResponseToBidsAsks(orderBook);
   }
