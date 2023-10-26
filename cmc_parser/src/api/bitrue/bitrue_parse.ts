@@ -2,7 +2,6 @@ import BitrueMapper from "../../mapper/bitrue_mapper";
 import TradingSymbol from "../../models/trading_symbol";
 import { SymbolBaseQuote, BidsAsks } from "../../outputter/exchanges_data_types";
 import SymbolUtils from "../../utils/symbol_utils";
-import ExchangeMapper from "../exchange_mapper";
 import ExchangeParser from "../exchange_parser";
 import BitrueApi from "./bitrue_api";
 
@@ -12,7 +11,7 @@ export default class BitrueParse extends ExchangeParser {
 
   async getBaseQuoteAssets(): Promise<SymbolBaseQuote[]> {
     const { data: tradingPairs } = await BitrueApi.getExchangeInfo();
-    ExchangeMapper.convertSymbolBaseToTradingSymbols(this.tradingSymbols, BitrueMapper.convertAssetsToSymbolQouteBase(tradingPairs, this.requiredQuoteAssets));
+    BitrueMapper.convertSymbolBaseToTradingSymbols(this.tradingSymbols, BitrueMapper.convertAssetsToSymbolQouteBase(tradingPairs, this.requiredQuoteAssets));
 
     return BitrueMapper.convertAssetsToSymbolQouteBase(tradingPairs, this.requiredQuoteAssets);
   }

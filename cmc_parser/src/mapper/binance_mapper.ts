@@ -1,35 +1,14 @@
+import ExchangeMapper from "../api/exchange_mapper";
 import BinanceExchangeInfoResponse from "../api/response/binance/binance_exchange_info_response";
 import BinanceOrderBookResponse from "../api/response/binance/binance_order_book_response";
 import BinanceSymbolResponse from "../api/response/binance/binance_symbol_response";
-import { BidsAsks, Order, SymbolBaseQuote } from "../outputter/exchanges_data_types";
+import { SymbolBaseQuote } from "../outputter/exchanges_data_types";
 
-export default class BinanceMapper {
+export default class BinanceMapper extends ExchangeMapper {
   static convertOrderBookResponseToBidsAsks(
     response: BinanceOrderBookResponse
   ) {
-    const bidsAsks: BidsAsks = { bids: [], asks: [] };
-
-    this.addToBidsAsks(response.bids, bidsAsks.bids);
-    this.addToBidsAsks(response.asks, bidsAsks.asks);
-
-    return bidsAsks;
-  }
-
-  private static addToBidsAsks(
-    limitsFromResponse: number[][],
-    bidsAsksEntity: Order[]
-  ) {
-    if (limitsFromResponse.length === 0) {
-      return;
-    }
-
-    limitsFromResponse.map((value: number[]) => {
-      const price = value[0];
-      const amount = value[1];
-
-      const order: Order = { price, amount };
-      bidsAsksEntity.push(order);
-    });
+    return ExchangeMapper.convertOrderBookResponseToBidsAsksBase(response.bids, response.asks);
   }
 
   static convertAssetsToSymbolQouteBase(tradingPairs: BinanceExchangeInfoResponse, requiredQuoteAssets: string[]) {

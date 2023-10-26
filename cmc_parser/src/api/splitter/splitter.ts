@@ -1,9 +1,8 @@
 import TradingSymbol from "../../models/trading_symbol";
 import BinanceParse from "../binance/binance_parse";
 import BitrueParse from "../bitrue/bitrue_parse";
+import BybitParse from "../bybit/bybit_parse";
 import ExchangeParser from "../exchange_parser";
-import HuobiParse from "../huobi/huobi_parse";
-import MexcParse from "../mexc/mexc_parse";
 // import HuobiParse from "../huobi/huobi_parse";
 import OkxParse from "../okx/okx_parse";
 
@@ -14,8 +13,8 @@ export default class Splitter {
   private static init() {
     this.exchanges.push(new BinanceParse());
     this.exchanges.push(new OkxParse());
-    // this.exchanges.push(new HuobiParse());
     this.exchanges.push(new BitrueParse());
+    this.exchanges.push(new BybitParse());
   }
 
   static async split() {
@@ -26,7 +25,6 @@ export default class Splitter {
     }));
 
     const pairs: TradingSymbol[][] = this.exchanges.map(exc => exc.tradingSymbols);
-    // console.log(pairs);
 
     const outputPairs: TradingSymbol[][] = this.findRepeatedBaseAndQuoteElements(pairs);
 
@@ -36,8 +34,8 @@ export default class Splitter {
 
     console.log(outputPairs);
 
-    await Promise.all(this.exchanges.map(async (value) => {
-      return value.parseOrderBookTradingSymols(value.tradingSymbols);
+    await Promise.all(this.exchanges.map(async (exchange) => {
+      return exchange.parseOrderBookTradingSymols(exchange.tradingSymbols);
     }));
   }
 

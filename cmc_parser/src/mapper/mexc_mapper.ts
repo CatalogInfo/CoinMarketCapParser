@@ -1,35 +1,14 @@
+import ExchangeMapper from "../api/exchange_mapper";
 import MexcExchangeInfoResponse from "../api/response/mexc/mexc_exchange_info_response";
 import MexcOrderBookResponse from "../api/response/mexc/mexc_order_book_response";
 import MexcSymbolResponse from "../api/response/mexc/mexc_symbol_response";
-import { BidsAsks, Order, SymbolBaseQuote } from "../outputter/exchanges_data_types";
+import { SymbolBaseQuote } from "../outputter/exchanges_data_types";
 
-export default class MexcMapper {
+export default class MexcMapper extends ExchangeMapper {
   static convertOrderBookResponseToBidsAsks(
     response: MexcOrderBookResponse
   ) {
-    const bidsAsks: BidsAsks = { bids: [], asks: [] };
-
-    this.addToBidsAsks(response.bids, bidsAsks.bids);
-    this.addToBidsAsks(response.asks, bidsAsks.asks);
-
-    return bidsAsks;
-  }
-
-  private static addToBidsAsks(
-    limitsFromResponse: number[][],
-    bidsAsksEntity: Order[]
-  ) {
-    if (limitsFromResponse.length === 0) {
-      return;
-    }
-
-    limitsFromResponse.map((value: number[]) => {
-      const price = value[0];
-      const amount = value[1];
-
-      const order: Order = { price, amount };
-      bidsAsksEntity.push(order);
-    });
+    return ExchangeMapper.convertOrderBookResponseToBidsAsksBase(response.bids, response.asks);
   }
 
   static convertAssetsToSymbolQouteBase(tradingPairs: MexcExchangeInfoResponse, requiredQuoteAssets: string[]) {

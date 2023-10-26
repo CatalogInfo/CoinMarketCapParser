@@ -1,35 +1,14 @@
+import ExchangeMapper from "../api/exchange_mapper";
 import OkxExchangeInfoResponse from "../api/response/okx/okx_exchange_info_response";
 import { OkxOrderBook } from "../api/response/okx/okx_order_book_response";
 import OkxSymbolResponse from "../api/response/okx/okx_symbol_response";
-import { BidsAsks, Order, SymbolBaseQuote } from "../outputter/exchanges_data_types";
+import { SymbolBaseQuote } from "../outputter/exchanges_data_types";
 
-export default class OkxMapper {
+export default class OkxMapper extends ExchangeMapper{
   static convertOrderBookResponseToBidsAsks(
     response: OkxOrderBook
   ) {
-    const bidsAsks: BidsAsks = { bids: [], asks: [] };
-
-    this.addToBidsAsks(response.bids, bidsAsks.bids);
-    this.addToBidsAsks(response.asks, bidsAsks.asks);
-
-    return bidsAsks;
-  }
-
-  private static addToBidsAsks(
-    limitsFromResponse: number[][],
-    bidsAsksEntity: Order[]
-  ) {
-    if (limitsFromResponse.length === 0) {
-      return;
-    }
-
-    limitsFromResponse.map((value: number[]) => {
-      const price = value[0];
-      const amount = value[1];
-
-      const order: Order = { price, amount };
-      bidsAsksEntity.push(order);
-    });
+    return this.convertOrderBookResponseToBidsAsksBase(response.bids, response.asks);
   }
 
   static convertAssetsToSymbolQouteBase(tradingPairs: OkxExchangeInfoResponse, requiredQuoteAssets: string[]) {

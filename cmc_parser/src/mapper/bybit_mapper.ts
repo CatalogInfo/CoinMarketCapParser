@@ -1,35 +1,14 @@
+import ExchangeMapper from "../api/exchange_mapper";
 import BybitExchangeInfoResponse from "../api/response/bybit/bybit_exchange_info_response";
 import BybitOrderBookResponse from "../api/response/bybit/bybit_order_book_response";
 import BybitSymbolResponse from "../api/response/bybit/bybit_symbol_response";
-import { BidsAsks, Order, SymbolBaseQuote } from "../outputter/exchanges_data_types";
+import { SymbolBaseQuote } from "../outputter/exchanges_data_types";
 
-export default class BybitMapper {
+export default class BybitMapper extends ExchangeMapper {
   static convertOrderBookResponseToBidsAsks(
     response: BybitOrderBookResponse
   ) {
-    const bidsAsks: BidsAsks = { bids: [], asks: [] };
-
-    this.addToBidsAsks(response.result?.b, bidsAsks.bids);
-    this.addToBidsAsks(response.result?.a, bidsAsks.asks);
-
-    return bidsAsks;
-  }
-
-  private static addToBidsAsks(
-    limitsFromResponse: number[][],
-    bidsAsksEntity: Order[]
-  ) {
-    if (limitsFromResponse.length === 0) {
-      return;
-    }
-
-    limitsFromResponse.map((value: number[]) => {
-      const price = value[0];
-      const amount = value[1];
-
-      const order: Order = { price, amount };
-      bidsAsksEntity.push(order);
-    });
+    return ExchangeMapper.convertOrderBookResponseToBidsAsksBase(response.result?.b, response.result?.a);
   }
 
   static convertAssetsToSymbolQouteBase(tradingPairs: BybitExchangeInfoResponse, requiredQuoteAssets: string[]) {
