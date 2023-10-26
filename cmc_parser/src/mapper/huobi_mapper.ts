@@ -11,7 +11,6 @@ export default class HuobiMapper {
 
     this.addToBidsAsks(response.tick?.bids, bidsAsks.bids);
     this.addToBidsAsks(response.tick?.asks, bidsAsks.asks);
-    console.log(bidsAsks);
 
     return bidsAsks;
   }

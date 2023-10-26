@@ -8,7 +8,7 @@ import BinanceApi from "./binance_api";
 
 export default class BinanceParse extends ExchangeParser {
   tradingSymbols: TradingSymbol[] = [];
-  SLEEP_TIME = 200;
+  SLEEP_TIME = 100;
 
   async getBaseQuoteAssets(): Promise<SymbolBaseQuote[]> {
     const { data: tradingPairs } = await BinanceApi.getExchangeInfo();

@@ -13,7 +13,6 @@ export default abstract class ExchangeParser {
     this.tradingSymbols = [];
     const length = tradingSymbols.length;
     for (let i = 0; i < length; i++) {
-      console.log(length)
       const symbol = tradingSymbols[i];
       const pair = await ExcnhageCalculator.asyncCalculs(symbol, async () => await this.obtainOrderBook(symbol));
 
